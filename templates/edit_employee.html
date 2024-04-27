@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit New Employee</title>
+
+</head>
+<body>
+
+<h1>Edit New Employee</h1>
+<form action="/edit_employee/{{ emp_id }}" method="post">
+    <label>First Name</label>
+    <input type="text" name="firstname">
+    <label>Last Name</label>
+    <input type="text" name="lastname">
+    <label>Manager Id</label>
+    <input type="text" name="manageid">
+    <input type="hidden" name="employee_id" value="{{ emp_id }}">
+    <button type="submit">Ok</button>
+</form>
+
+
+</body>
+</html>

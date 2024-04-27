@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello from Flask</title>
+
+</head>
+<body>
+
+<h1>My Company</h1>
+<p>Here is a list of my employees</p>
+
+{%- for person in my_empl %}
+<h1>{{ person.last_name}} {{person.first_name}} <a href="{{ url_for('edit_employee', employee_id=person.employee_id) }}">edit</a>
+    <a href="{{ url_for('del_employee', employee_id=person.employee_id) }}">delete</a>
+</h1> 
+{% endfor %}
+
+
+</html>
