@@ -35,6 +35,10 @@ db.init_app(app)
 # initialize auth_blueprint
 app.register_blueprint(auth_ab)
 
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>" 
+
 @app.route("/list_employee")
 def list_employee():
     employees = db.session.execute(db.select(DBEmployee).order_by(DBEmployee.employee_id)).scalars() 
@@ -158,4 +162,4 @@ if __name__ == "__main__":
     app.logger.addHandler(fileHandler)
     app.logger.addHandler(streamHandler)
     app.logger.info("Logging is set up.")
-    app.run(debug=True)
+    app.run()
