@@ -10,8 +10,8 @@ from database.dbemployee import DBEmployee
 from database.dbuser import DBUser
 import logging
 import os
-from .authentic.auth import auth
-
+from .signin.auth import auth_ab
+from extensions import db
 
 SECRET_KEY = os.urandom(32)
 
@@ -29,14 +29,11 @@ Base = declarative_base()
 # Define the PostgreSQL URL
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://bdinh:linh1982@localhost:5432/company'
 
-# create the extension
-db = SQLAlchemy(model_class=Base)
-
 # initialize the app with extension
 db.init_app(app)
 
 # initialize auth_blueprint
-app.register_blueprint(auth)
+app.register_blueprint(auth_ab)
 
 @app.route("/list_employee")
 def list_employee():
@@ -109,42 +106,42 @@ def success(name):
 def api(name):
     return render_template('home.html', name=name)
 
-@app.route("/login", methods=['POST', 'GET'])
-def login():
-    login_form = LoginForm(csrf_enabled=True)
-    if request.method == "POST":
-        if login_form.validate_on_submit():
+# @app.route("/login", methods=['POST', 'GET'])
+# def login():
+#     login_form = LoginForm(csrf_enabled=True)
+#     if request.method == "POST":
+#         if login_form.validate_on_submit():
 
-            email = login_form.email.data
-            password = login_form.password.data
+#             email = login_form.email.data
+#             password = login_form.password.data
 
-            result = db.session.execute(db.select(DBUser).where(DBUser.email == email))
-            user = result.scalar()
+#             result = db.session.execute(db.select(DBUser).where(DBUser.email == email))
+#             user = result.scalar()
 
-            if check_password_hash(user.password,password):
-                app.logger.info('%s Validate Username and Password Post method')
-                return redirect(url_for('list_employee'))
-            else:
-                app.logger.info('%s InValid Username and Password Post method',)
-                return render_template('login.html', form=login_form)
-    elif request.method == "GET":
-        return render_template('login.html', form=login_form)
+#             if check_password_hash(user.password,password):
+#                 app.logger.info('%s Validate Username and Password Post method')
+#                 return redirect(url_for('list_employee'))
+#             else:
+#                 app.logger.info('%s InValid Username and Password Post method',)
+#                 return render_template('login.html', form=login_form)
+#     elif request.method == "GET":
+#         return render_template('login.html', form=login_form)
 
-@app.route("/register", methods=['POST', 'GET'])
-def register():
-    login_form = RegisterForm(csrf_enabled=True)
-    if request.method == "POST":
-        hashing_and_salted_pass = generate_password_hash (request.form.get('password'),method='pbkdf2:sha256',salt_length=8)
+# @app.route("/register", methods=['POST', 'GET'])
+# def register():
+#     login_form = RegisterForm(csrf_enabled=True)
+#     if request.method == "POST":
+#         hashing_and_salted_pass = generate_password_hash (request.form.get('password'),method='pbkdf2:sha256',salt_length=8)
 
-        new_user = DBUser(id=None,
-                          email=request.form.get('email'),
-                          password=hashing_and_salted_pass,
-                          name=request.form.get('name'))
-        db.session.add(new_user)
-        db.session.commit()
-        return render_template('login.html', form=login_form)
-    elif request.method == "GET":
-        return render_template('register.html', form=login_form)
+#         new_user = DBUser(id=None,
+#                           email=request.form.get('email'),
+#                           password=hashing_and_salted_pass,
+#                           name=request.form.get('name'))
+#         db.session.add(new_user)
+#         db.session.commit()
+#         return render_template('login.html', form=login_form)
+#     elif request.method == "GET":
+#         return render_template('register.html', form=login_form)
 
 
 if __name__ == "__main__":
