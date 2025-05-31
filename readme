@@ -1,0 +1,8 @@
+gunicorn main:app
+
+
+| File        | Flask App Object | Command               |
+| ----------- | ---------------- | --------------------- |
+| `main.py`   | `app = Flask()`  | `gunicorn main:app`   |
+| `server.py` | `web = Flask()`  | `gunicorn server:web` |
+| `app.py`    | `app = Flask()`  | `gunicorn app:app`    |
