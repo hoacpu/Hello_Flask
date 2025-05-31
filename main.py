@@ -1,14 +1,8 @@
-from flask import Flask, jsonify, Response, request, redirect, url_for, render_template
-from markupsafe import escape
+from flask import Flask, request, redirect, url_for
 from flask import render_template
-import json
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, Column, VARCHAR
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import declarative_base
 import json
 from database.dbemployee import DBEmployee
-from database.dbuser import DBUser
-import logging
 import os
 from signin.auth import auth_ab
 from extensions import db
@@ -36,7 +30,7 @@ db.init_app(app)
 app.register_blueprint(auth_ab)
 
 @app.route("/")
-def hello_world():
+def index():
     return "<p>Hello, World!</p>" 
 
 @app.route("/list_employee")

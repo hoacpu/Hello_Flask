@@ -1,7 +1,4 @@
-from flask import Flask, jsonify, Response, request, redirect, url_for, render_template, Blueprint
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, Column, VARCHAR
-from sqlalchemy.orm import sessionmaker, declarative_base
+from flask import request, redirect, url_for, render_template, Blueprint
 from database.dbuser import DBUser
 from .loginform import LoginForm, RegisterForm
 from werkzeug.security import *
