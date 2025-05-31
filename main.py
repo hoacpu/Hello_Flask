@@ -10,7 +10,7 @@ from database.dbemployee import DBEmployee
 from database.dbuser import DBUser
 import logging
 import os
-from .signin.auth import auth_ab
+from signin.auth import auth_ab
 from extensions import db
 
 SECRET_KEY = os.urandom(32)
